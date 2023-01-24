@@ -73,3 +73,8 @@ To stop docker container
 ```
 docker stop <container_id>
 ```
+
+To install all requirements and created packages using setup file
+```
+python setup.py install
+```
