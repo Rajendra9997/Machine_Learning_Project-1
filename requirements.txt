@@ -3,4 +3,4 @@ gunicorn
 pandas
 numpy
 sklearn
--e .
+datetime
