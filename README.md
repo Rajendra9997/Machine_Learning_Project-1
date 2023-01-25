@@ -78,3 +78,8 @@ To install all requirements and created packages using setup file
 ```
 python setup.py install
 ```
+
+To install ipykernal
+'''
+pip install ipykernal
+'''
