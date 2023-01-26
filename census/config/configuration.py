@@ -14,21 +14,23 @@ class Configuration():
         current_time_stamp:str = CURRENT_TIME_STAMP,
         ) -> None:
         self.config_info = read_yaml_file(file_path=config_file_path)
-        self.training_pipeline_config = get_training_pipeline_config()
+        self.training_pipeline_config = self.get_training_pipeline_config()
         self.time_stamp = current_time_stamp
  
     def get_data_ingestion_config(self) -> DataIngestionConfig:
         try:
             artifact_dir = self.training_pipeline_config.artifact_dir
+            
+            data_ingestion_artifact_dir = os.path.join(
+                artifact_dir,
+                DATA_INGESTION_ARTIFACT_DIR,
+                self.time_stamp
+            )
+
             data_ingestion_info = self.config_info[DATA_INGESTION_CONFIG_KEY]
             
-            dataset_download_url = data_ingestion_info[DATASET_DOWNLOAD_URL_KEY]
-            
-            data_ingestion_artifact_dir = os.path.joim(
-                artifact_dir,
-                data_ingestion_info[DATA_INGESTION_ARTIFACT_DIR],
-                self.time_stamp
-            )           
+            dataset_download_url = data_ingestion_info[DATA_INGESTION_DATASET_DOWNLOAD_URL_KEY]
+                       
            
             raw_data_dir = os.path.join(
                 data_ingestion_artifact_dir,
@@ -60,9 +62,10 @@ class Configuration():
                     raw_data_dir = raw_data_dir,
                     tgz_download_dir = tgz_download_dir,
                     ingested_train_dir = ingested_train_dir,
-                    ingested_test_dir = ingested_test_dir 
-
+                    ingested_test_dir = ingested_test_dir
             )
+            logging.info(f"Data Ingestion config: {data_ingestion_config}")
+            return data_ingestion_config
         except Exception as e:
             raise CensusException(e,sys) from e
 

@@ -3,7 +3,7 @@ from census.logger import logging
 from census.exception import CensusException
 def main():
     try:
-        pipeline = Pipeline
+        pipeline = Pipeline()
         pipeline.run_pipeline()
     except Exception as e:
         logging.error(f"{e}")

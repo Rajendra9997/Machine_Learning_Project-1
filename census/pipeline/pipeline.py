@@ -19,7 +19,7 @@ class Pipeline:
         try:
             data_ingestion = DataIngestion(data_ingestion_config=self.config.get_data_ingestion_config())
             return data_ingestion.initiate_data_ingestion()
-        except Exceptiona as e:
+        except Exception as e:
             raise CensusException(e,sys) from e
 
     def run_pipeline(self):
