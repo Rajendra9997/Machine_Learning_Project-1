@@ -65,20 +65,14 @@ class DataIngestion:
 
             census_data_frame = pd.read_csv(census_file_path)
 
-            census_data_frame["income_cat"] = pd.cut(
-                census_data_frame["median_income"],
-                bins = [0.0,1.5,3.0,4.5,6.0,np.inf], 
-                labels= [1,2,3,4,5]
-            )
-
             strat_train_set = None
             strat_test_set = None
 
             split = StratifiedShuffleSplit(n_splits = 1 , test_size = 0.2, random_state = 2)
 
-            for train_index, test_index in split.split(census_data_frame,census_data_frame["income_cat"]):
-                strat_train_set = census_data_frame.loc[train_index].drop(["income_cat"], axis =1)
-                strat_test_set = census_data_frame.loc[test_index].drop(["income_cat"], axis =1)
+            for train_index, test_index in split.split(census_data_frame,census_data_frame["salary"]):
+                strat_train_set = census_data_frame.loc[train_index]
+                strat_test_set = census_data_frame.loc[test_index]
 
                 train_file_path = os.path.join(self.data_ingestion_config.ingested_train_dir, file_name)
                 test_file_path = os.path.join(self.data_ingestion_config.ingested_test_dir, file_name)
@@ -86,12 +80,12 @@ class DataIngestion:
             if strat_train_set is not None:
                 os.makedirs(self.data_ingestion_config.ingested_train_dir, exist_ok = True)
                 logging.info(f"Exporting training dataset to file: [{train_file_path}]")
-                strat_train_set.to_csv(train_file_path)       
+                strat_train_set.to_csv(train_file_path0, index = False)       
         
             if strat_test_set is not None:
                 os.makedirs(self.data_ingestion_config.ingested_test_dir, exist_ok = True)
                 logging.info(f"Exporting test dataset to file: [{test_file_path}]")
-                strat_test_set.to_csv(test_file_path)       
+                strat_test_set.to_csv(test_file_path, index = False)       
 
             data_ingestion_artifact = DataIngestionArtifact(train_file_path=train_file_path,
                                                             test_file_path=test_file_path,

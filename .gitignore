@@ -5,7 +5,7 @@ __pycache__/
 
 # C extensions
 *.so
-/artifact/census
+census/artifact
 # Distribution / packaging
 .Python
 build/
