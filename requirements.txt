@@ -5,3 +5,4 @@ numpy
 sklearn
 datetime
 PyYAML
+evidently
