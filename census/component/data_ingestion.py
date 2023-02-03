@@ -74,8 +74,8 @@ class DataIngestion:
                 strat_train_set = census_data_frame.loc[train_index]
                 strat_test_set = census_data_frame.loc[test_index]
 
-                train_file_path = os.path.join(self.data_ingestion_config.ingested_train_dir, file_name)
-                test_file_path = os.path.join(self.data_ingestion_config.ingested_test_dir, file_name)
+            train_file_path = os.path.join(self.data_ingestion_config.ingested_train_dir, file_name)
+            test_file_path = os.path.join(self.data_ingestion_config.ingested_test_dir, file_name)
         
             if strat_train_set is not None:
                 os.makedirs(self.data_ingestion_config.ingested_train_dir, exist_ok = True)

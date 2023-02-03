@@ -1,0 +1,42 @@
+columns:
+  age: int
+  workclass: object
+  fnlwgt: int
+  education: object
+  education-num: int
+  marital-status: object
+  occupation: object
+  relationship: object
+  race: object
+  sex: object
+  capital-gain: int
+  capital-loss: int
+  hours-per-week: int
+  country: object
+  salary: object
+
+numerical_columns:
+  - age 
+  - fnlwgt 
+  - education-num
+  - capital-gain
+  - capital-loss
+  - hours-per-week
+
+categorical_columns:
+  - workclass
+  - education
+  - marital-status
+  - occupation
+  - relationship
+  - race
+  - sex
+  - country
+  
+target_column: salary
+
+
+
+  
+
+

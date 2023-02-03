@@ -6,3 +6,4 @@ sklearn
 datetime
 PyYAML
 evidently
+dill

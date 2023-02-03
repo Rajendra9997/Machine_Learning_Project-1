@@ -17,6 +17,7 @@ class DataValidation:
     def __init__(self, data_validation_config : DataValidationConfig,
         data_ingestion_artifact : DataIngestionArtifact):
         try:
+            logging.info(f"{'='*30} Data Validation log started.{'='*30}")
             self.data_validation_config = data_validation_config
             self.data_ingestion_artifact = data_ingestion_artifact
         except Exception as e:
@@ -130,3 +131,7 @@ class DataValidation:
             return data_validation_artifact
         except Exception as e:
             raise CensusException(e,sys) from e
+
+    #def __del__(self):
+     #   logging.info(f"{'='*30}Data Validation log completed.{'='*30}")
+        
