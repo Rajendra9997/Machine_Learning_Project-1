@@ -38,29 +38,7 @@ def load_data( data_file_path:str, schema_file_path:str) -> pd.DataFrame:
             return dataframe
         except Exception as e:
             raise CensusException(e, sys) from e
-
-def load_data( data_file_path:str, schema_file_path:str) -> pd.DataFrame:
-        try:
-            dataset_schema = read_yaml_file(schema_file_path)
-
-            schema = dataset_schema[DATASET_SCHEMA_COLUMNS_KEY]
-
-            dataframe = pd.read_csv(data_file_path)
-
-            error_message = ""
-
-            for column in dataframe.columns:
-                if column in list(schema.keys()):
-                    dataframe[column].astype(schema[column])
-                else:
-                    error_message = (f"{error_message} \nColumn: {column} not present in schema")
             
-            if len(error_message) > 0:
-                raise Exception(error_message)
-            return dataframe
-        except Exception as e:
-            raise CensusException(e, sys) from e
-
 def save_numpy_array_data(file_path: str, array: np.array):
     """
     Save numpy array data to file
@@ -79,7 +57,7 @@ def save_numpy_array_data(file_path: str, array: np.array):
 def load_numpy_array_data(file_path: str) -> np.array:
     """
     load numpy array data from file
-    file_path: str location of file to load
+    file_path: str location of file to loa
     return: np.array data loaded
     """
     try:

@@ -143,7 +143,7 @@ class Configuration():
                 add_bedroom_per_room = add_bedroom_per_room,
                 transformed_train_dir = transformed_train_dir,
                 transformed_test_dir = transformed_test_dir,
-                preprocesed_object_file_path = preprocessed_object_file_path
+                preprocessed_object_file_path = preprocessed_object_file_path
             )
 
             logging.info(f"Data transformation config : {data_transformation_config}")

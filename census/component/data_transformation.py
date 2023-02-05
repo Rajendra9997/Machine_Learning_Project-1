@@ -21,7 +21,7 @@ class DataTransformation:
                 data_validation_artifact : DataValidationArtifact    
                 ):
         try:
-            logging.info(f"{'='*30} Data transformation log started.{'='*30}")
+            logging.info(f"{'='*20} Data transformation log started.{'='*20}")
             self.data_transformation_config = data_transformation_config
             self.data_ingestion_artifact = data_ingestion_artifact
             self.data_validation_artifact = data_validation_artifact
@@ -78,7 +78,7 @@ class DataTransformation:
             
             test_df = load_data(data_file_path = test_file_path, schema_file_path=schema_file_path)
 
-            schema = read_yaml_file(schema_file_path)
+            schema = read_yaml_file(file_path = schema_file_path)
 
             target_column_name = schema[TARGET_COLUMN_KEY]
 
@@ -94,25 +94,26 @@ class DataTransformation:
             input_feature_test_arr = preprocessing_obj.transform(input_feature_test_df)
 
             
-            train_arr = np.c_[ input_feature_train_arr, np.array(target_feature_train_df)]
+            train_arr = np.c_[ input_feature_train_arr, [np.array(target_feature_train_df)]]
 
-            test_arr = np.c_[input_feature_test_arr, np.array(target_feature_test_df)]
+            test_arr = np.c_[input_feature_test_arr, [np.array(target_feature_test_df)]]
 
             transformed_train_dir = self.data_transformation_config.transformed_train_dir
             transformed_test_dir = self.data_transformation_config.transformed_test_dir
 
-            train_file_name = os.path.basename(train_file_path).replace(".csv","npz")
-            test_file_name = os.path.basename(test_file_name).replace(".csv","npz")
+            train_file_name = os.path.basename(train_file_path).replace(".csv",".npz")
+            test_file_name = os.path.basename(test_file_path).replace(".csv",".npz")
 
             transformed_train_file_path = os.path.join(transformed_train_dir, train_file_name)
-            transformed_test_file_path = os.path.joim(transformed_test_dir, test_file_name)
+            transformed_test_file_path = os.path.join(transformed_test_dir, test_file_name)
 
             logging.info("Saving transformed training and testing array.")
             save_numpy_array_data(file_path=transformed_train_file_path,array=train_arr)    
             save_numpy_array_data(file_path=transformed_test_file_path, array=test_arr)
-
+  
             preprocessing_obj_file_path = self.data_transformation_config.preprocessed_object_file_path
-            
+
+
             logging.info("Saving preprocessing object.")
             save_object(file_path=preprocessing_obj_file_path, obj=preprocessing_obj)
 
@@ -123,11 +124,11 @@ class DataTransformation:
                 transformed_test_file_path=transformed_test_file_path,
                 preprocessed_object_file_path=preprocessing_obj_file_path
             )
-            logging.info(f"Data transformation artifact: {DataTransformationArtifact}")
+            logging.info(f"Data transformation artifact: {data_transformation_artifact}")
             return data_transformation_artifact
         except Exception as e:
             raise CensusException(e, sys) from e
 
-    #def __del__(self):
-     #   logging.info(f"{'='*30}Data transformaation log completed.{'='*30}")
+    def __del__(self):
+        logging.info(f"{'='*20} transformation log completed {'='*20} \n\n")
         
