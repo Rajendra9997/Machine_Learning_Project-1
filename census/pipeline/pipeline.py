@@ -1,12 +1,14 @@
 from census.config.configuration import Configuration
 from census.exception import CensusException
 from census.logger import logging
-from census.entity.artifact_entity import DataIngestionArtifact, DataValidationArtifact, DataTransformationArtifact
+from census.entity.artifact_entity import DataIngestionArtifact, DataValidationArtifact,\
+     DataTransformationArtifact, ModelTrainerArtifact, ModelEvaluationArtifact, ModelPusherArtifact
 from census.entity.config_entity import DataIngestionConfig
 
 from census.component.data_ingestion import DataIngestion
 from census.component.data_validation import DataValidation
 from census.component.data_transformation import DataTransformation
+from census.component.model_trainer import ModelTrainer
 import os,sys
 
 class Pipeline:
@@ -48,7 +50,14 @@ class Pipeline:
         except Exception as e:
             raise CensusException(e,sys) from e
 
-        
+    def start_model_trainer(self, data_transformation_artifact: DataTransformationArtifact)-> ModelTrainerArtifact:
+        try:
+            model_trainer = ModelTrainer(model_trainer_config=self.config.get_model_trainer_config(),
+                                         data_transformation_artifact=data_transformation_artifact
+                                         )
+            return model_trainer.initiate_model_trainer()
+        except Exception as e:
+            raise CensusException(e,sys) from e 
 
     def run_pipeline(self):
         try:
@@ -61,5 +70,7 @@ class Pipeline:
                 data_ingestion_artifact=data_ingestion_artifact,
                 data_validation_artifact=data_validation_artifact
                 )
+            #Model trainer
+            model_trainer_artifact = self.start_model_trainer(data_transformation_artifact=data_transformation_artifact)
         except Exception as e :
             raise CensusException(e,sys) from e
