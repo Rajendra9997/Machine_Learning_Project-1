@@ -17,4 +17,14 @@ model_selection:
       penalty:
       - 'l2'
       - 'l1'
-  
+  module_1:
+    class: KNeighborsClassifier
+    module: sklearn.neighbors
+    params:
+      n_neighbors: 5
+    search_param_grid:
+      n_neighbors:
+      - 6
+      - 7
+      - 9
+      - 11 

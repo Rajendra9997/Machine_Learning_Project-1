@@ -7,9 +7,13 @@ from census.util.util import read_yaml_file
 import os, sys
 def main():
     try:
-        pipeline = Pipeline()
+
+        config_path = os.path.join("config","config.yaml")
+
+        pipeline = Pipeline(Configuration(config_file_path=config_path))
         
-        pipeline.run_pipeline()
+        pipeline.start()
+        logging.info(f"Main function execution completed.")
         #data_transformation_config = Configuration().get_data_transformation_config()
         #print(data_transformation_config)
         #m  = read_yaml_file(file_path="E:\Machine_Learning_Project\config\schema.yaml")

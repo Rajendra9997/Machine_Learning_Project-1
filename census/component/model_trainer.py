@@ -103,8 +103,6 @@ class ModelTrainer:
             trained_model_file_path=trained_model_file_path,
             train_f1_score=metric_info.train_f1_score,
             test_f1_score=metric_info.test_f1_score,
-            train_auc=metric_info.train_auc,
-            test_auc=metric_info.test_auc,
             train_precision=metric_info.train_precision,
             test_precision=metric_info.test_precision,
             train_recall=metric_info.train_recall,

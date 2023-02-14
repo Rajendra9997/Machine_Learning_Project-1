@@ -36,7 +36,7 @@ BestModel = namedtuple("BestModel", ["model_serial_number",
 
 MetricInfoArtifact = namedtuple("MetricInfoArtifact",
                                 ["model_name", "model_object", "train_f1_score","test_f1_score","train_precision", 
-                                "test_precision", "train_recall", "test_recall","train_auc","test_auc",
+                                "test_precision", "train_recall", "test_recall",
                                 "train_accuracy","test_accuracy", "model_accuracy", "index_number"])
 
 
@@ -81,21 +81,18 @@ def evaluate_classification_model(model_list: list, X_train:np.ndarray, y_train:
             test_acc = accuracy_score(y_test, y_test_pred)
             
             #Calculating f1 score on training and testing dataset
-            train_f1_score = f1_score(y_train, y_train_pred)
-            test_f1_score = f1_score(y_test, y_test_pred)
+            train_f1_score = f1_score(y_true=y_train, y_pred=y_train_pred, pos_label = ' >50K')
+            test_f1_score = f1_score(y_true=y_test, y_pred=y_test_pred, pos_label = ' >50K')
 
             #Calculating precision on training and testing dataset
-            train_precision = precision_score(y_train, y_train_pred)
-            test_precision = precision_score(y_test, y_test_pred)
+            train_precision = precision_score(y_true=y_train, y_pred=y_train_pred,pos_label = ' >50K')
+            test_precision = precision_score(y_true=y_test, y_pred=y_test_pred,pos_label = ' >50K')
 
             #Calculating recall on training and testing dataset
-            train_recall = recall_score(y_train, y_train_pred)
-            test_recall = recall_score(y_test, y_test_pred)
+            train_recall = recall_score(y_true=y_train, y_pred= y_train_pred,pos_label = ' >50K')
+            test_recall = recall_score(y_true=y_test, y_pred=y_test_pred,pos_label = ' >50K')
 
-            #Calculating roc auc curve on training and testing dataset
-            train_auc = roc_auc_score(y_train, y_train_pred)
-            test_auc = roc_auc_score(y_test, y_test_pred)
-
+            
             # Calculating harmonic mean of train_accuracy and test_accuracy
             model_accuracy = (2 * (train_acc * test_acc)) / (train_acc + test_acc)
             diff_test_train_acc = abs(test_acc - train_acc)
@@ -113,9 +110,7 @@ def evaluate_classification_model(model_list: list, X_train:np.ndarray, y_train:
             logging.info(f"Test precision score: [{test_precision}].")
             logging.info(f"Train recall score: [{train_precision}].")
             logging.info(f"Test recall score: [{test_precision}].")
-            logging.info(f"Train roc auc score: [{train_auc}].")
-            logging.info(f"Test roc auc score: [{test_auc}].")
-      
+            
       
 
 
@@ -131,8 +126,6 @@ def evaluate_classification_model(model_list: list, X_train:np.ndarray, y_train:
                                                         test_precision=test_precision,
                                                         train_recall=train_recall,
                                                         test_recall=test_recall,
-                                                        train_auc=train_auc,
-                                                        test_auc=test_auc,
                                                         train_accuracy=train_acc,
                                                         test_accuracy=test_acc,
                                                         model_accuracy=model_accuracy,
