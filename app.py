@@ -6,13 +6,13 @@ import pip
 from census.util.util import read_yaml_file, write_yaml_file
 from matplotlib.style import context
 from census.logger import logging
-from census.exception import HousingException
+from census.exception import CensusException
 import os, sys
 import json
-from census.config.configuration import Configuartion
+from census.config.configuration import Configuration
 from census.constant import CONFIG_DIR, get_current_time_stamp
 from census.pipeline.pipeline import Pipeline
-from census.entity.census_predictor import CensusPredictor, CensusData
+from census.entity.census_income_predictor import CensusPredictor, CensusData
 from flask import send_file, abort, render_template
 
 
@@ -88,7 +88,7 @@ def view_experiment_history():
 @app.route('/train', methods=['GET', 'POST'])
 def train():
     message = ""
-    pipeline = Pipeline(config=Configuartion(current_time_stamp=get_current_time_stamp()))
+    pipeline = Pipeline(config=Configuration(current_time_stamp=get_current_time_stamp()))
     if not Pipeline.experiment.running_status:
         message = "Training started."
         pipeline.start()
