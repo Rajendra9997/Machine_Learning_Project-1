@@ -114,7 +114,7 @@ def predict():
         marital_status = str(request.form['marital-status'])
         occupation  = str(request.form['occupation'])
         relationship  = str(request.form['relationship'])
-        race = str(request.form[race])
+        race = str(request.form['race'])
         sex = str(request.form['sex'])
         country = str(request.form['country'])
         age = int(request.form['age']) 
@@ -229,4 +229,5 @@ def render_log_dir(req_path):
 
 
 if __name__ == "__main__":
+    app.debug = True
     app.run()
