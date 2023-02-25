@@ -8,7 +8,7 @@ from census.constant import *
 import numpy as np
 import os
 import sys
-from census.util.util import write_yaml_file, read_yaml_file, load_object,load_data
+from census.util.util import write_yaml_file, read_yaml_file, load_object,load_data,replace_column_categories
 from census.entity.model_factory import evaluate_classification_model
 
 
@@ -115,6 +115,14 @@ class ModelEvaluation:
             train_dataframe = train_dataframe.replace(' ?', np.nan)
             test_dataframe = test_dataframe.replace(' ?', np.nan)
             logging.info(f"Dropping target column from the dataframe completed.")
+
+            # replacing categories in respective categorical columns
+            logging.info(f"Replacing categories in respective categorical columns.")
+            train_dataframe = replace_column_categories(train_dataframe)
+            test_dataframe = replace_column_categories(test_dataframe)
+            logging.info(f"Replacing categories in respective categorical columns completed.")
+
+
 
             model = self.get_best_model()
 

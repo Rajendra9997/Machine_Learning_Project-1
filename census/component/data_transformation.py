@@ -3,7 +3,7 @@ from census.exception import CensusException
 from census.entity.config_entity import DataTransformationConfig
 from census.entity.artifact_entity import DataIngestionArtifact, DataValidationArtifact, \
     DataTransformationArtifact
-from census.util.util import read_yaml_file,save_object,save_numpy_array_data,load_data
+from census.util.util import read_yaml_file,save_object,save_numpy_array_data,load_data,replace_column_categories
 from census.constant import *
 import sys, os
 import pandas as pd
@@ -62,38 +62,7 @@ class DataTransformation:
         except Exception as e:
             raise CensusException(e,sys) from e
     
-    @staticmethod  
-    def replace_column_categories(data):
-        try:
-            schema_file_path = r"E:\Machine_Learning_Project\config\schema.yaml"
-            
-            dataset_schema = read_yaml_file(file_path=schema_file_path)
-
-            categorical_columns = dataset_schema[CATEGORICAL_COLUMN_KEY]
-
-            # replace categories in the marital-status column
-            data['marital-status'] = data['marital-status'].replace([' Divorced',' Married-spouse-absent',' Never-married',' Separated',' Widowed'],'Single')
-            data['marital-status'] = data['marital-status'].replace([' Married-AF-spouse',' Married-civ-spouse'],'Couple')
-
-            # replace categories in the country column
-            data.loc[data['country'] != ' United-States', 'country'] = 'Non-US'
-            data.loc[data['country'] == ' United-States', 'country'] = 'US'
-            
-            # replace categories in the workclass column
-            def replace_workclass_cat(data):
-                if data['workclass'] == ' Federal-gov' or data['workclass']== ' Local-gov' or data['workclass']==' State-gov': return 'govt'
-                elif data['workclass'] == ' Private':return 'private'
-                elif data['workclass'] == ' Self-emp-inc' or data['workclass'] == ' Self-emp-not-inc': return 'self_employed'
-                else: return 'without_pay'
-            
-            data['workclass'] = data.apply(replace_workclass_cat, axis = 1)
-
-            data.drop(["fnlwgt","capital-gain","capital-loss"], axis = 1, inplace = True, errors = "raise")
-            return data
-            
-        except Exception as e:
-            raise CensusException(e,sys) from e
-
+   
 
 
     def initiate_data_transformation(self)->DataTransformationArtifact:
@@ -111,9 +80,9 @@ class DataTransformation:
             
             logging.info(f"Loading training and test data as pandas dataframe.")
             train_df = load_data(data_file_path=train_file_path, schema_file_path=schema_file_path)
-            train_df = self.replace_column_categories(train_df)
+            train_df = replace_column_categories(train_df)
             test_df = load_data(data_file_path=test_file_path, schema_file_path=schema_file_path)
-            test_df = self.replace_column_categories(test_df)
+            test_df = replace_column_categories(test_df)
             schema = read_yaml_file(file_path=schema_file_path)
 
             target_column_name = schema[TARGET_COLUMN_KEY]

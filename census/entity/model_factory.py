@@ -11,6 +11,7 @@ from collections import namedtuple
 from typing import List
 from census.logger import logging
 from sklearn.metrics import accuracy_score, f1_score, precision_score, recall_score, roc_auc_score
+
 GRID_SEARCH_KEY = 'grid_search'
 MODULE_KEY = 'module'
 CLASS_KEY = 'class'

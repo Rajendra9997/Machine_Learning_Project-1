@@ -103,4 +103,42 @@ def load_object(file_path:str):
             return dill.load(file_obj)
     except Exception as e:
         raise CensusException(e,sys) from e
+    
+ 
+def replace_column_categories(data):
+    try:
+                    
+        
+        # replace categories in the marital-status column
+        data['marital-status'] = data['marital-status'].replace([' Divorced',' Married-spouse-absent',' Never-married',' Separated',' Widowed'],' single')
+        data['marital-status'] = data['marital-status'].replace([' Married-AF-spouse',' Married-civ-spouse'],' couple')
+
+        # replace categories in the country column
+        data.loc[data['country'] != ' United-States', 'country'] = ' Non-US'
+        data.loc[data['country'] == ' United-States', 'country'] = ' US'
+        
+        # replace categories in the workclass column
+        def replace_workclass_cat(data):
+            if data['workclass'] == ' Federal-gov' or data['workclass']== ' Local-gov' or data['workclass']==' State-gov': return ' govt'
+            elif data['workclass'] == ' Private':return ' private'
+            elif data['workclass'] == ' Self-emp-inc' or data['workclass'] == ' Self-emp-not-inc': return ' self_employed'
+            else: return 'without_pay'
+        # replace categories in education column
+        def replace_education_cat(data):
+            if data['education'] == ' 10th' or data['education'] == ' 9th' or data['education'] == ' 7th-8th'  or data['education'] == ' 5th-6th'  or data['education'] == ' 1st-4th' or data['education'] == ' Preschool' or data['education'] == ' Prof-school' : return ' 10th_or_below'
+            elif data['education'] == ' HS-grad' or data['education'] == ' 12th' or data['education'] == ' 11th':return ' HS-grad'
+            elif data['education'] == ' Some-college' or data['education'] == ' Bachelors' :return ' Bachelors'
+            elif data['education'] == ' Assoc-voc' or data['education'] == ' Assoc-acdm' :return ' Assoc-acdm_or_voc'
+            elif data['education'] == ' Masters' or data['education'] == ' Doctorate' :return ' Masters_or_higher'
+            else: pass
+
+        data['workclass'] = data.apply(replace_workclass_cat, axis = 1)
+        data['education'] = data.apply(replace_education_cat, axis = 1)
+
+        data.drop(["fnlwgt","capital-gain","capital-loss"], axis = 1, inplace = True, errors = "raise")
+        return data
+        
+    except Exception as e:
+        raise CensusException(e,sys) from e
+
 
