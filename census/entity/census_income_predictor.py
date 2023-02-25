@@ -19,10 +19,7 @@ class CensusData:
                 sex : str,  
                 country : str, 
                 age : int,
-                fnlwgt : float,
                 education_num : int, 
-                capital_gain : float,
-                capital_loss : float,
                 hours_per_week : float,
                 salary : str = None
                 ):
@@ -36,10 +33,7 @@ class CensusData:
             self.sex = sex
             self.country = country 
             self.age = age
-            self.fnlwgt = fnlwgt
             self.education_num = education_num  
-            self.capital_gain = capital_gain
-            self.capital_loss = capital_loss
             self.hours_per_week = hours_per_week
             self.salary = salary        
         except Exception as e:
@@ -65,10 +59,7 @@ class CensusData:
                 "sex" : [self.sex],
                 "country" : [self.country],
                 "age" : [self.age],
-                "fnlwgt" : [self.fnlwgt],
                 "education-num" : [self.education_num],  
-                "capital-gain" : [self.capital_gain],
-                "capital-loss" : [self.capital_loss],
                 "hours-per-week" : [self.hours_per_week],
             }
             return input_data

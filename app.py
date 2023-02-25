@@ -118,10 +118,7 @@ def predict():
         sex = str(request.form['sex'])
         country = str(request.form['country'])
         age = int(request.form['age']) 
-        fnlwgt = float(request.form['fnlwgt'])
         education_num = int(request.form['education-num'])
-        capital_gain = float(request.form['capital-gain'])
-        capital_loss = float(request.form['capital-loss']) 
         hours_per_week = float(request.form['hours-per-week'])
 
 
@@ -136,10 +133,7 @@ def predict():
                                 sex = sex,
                                 country = country, 
                                 age = age,
-                                fnlwgt = fnlwgt,
                                 education_num = education_num, 
-                                capital_gain = capital_gain,
-                                capital_loss =  capital_loss,
                                 hours_per_week = hours_per_week
                                 )
         census_df = census_data.get_census_input_data_frame()
