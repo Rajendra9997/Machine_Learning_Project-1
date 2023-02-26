@@ -243,7 +243,9 @@ class ModelFactory:
         try:
             # instantiating GridSearchCV class
             
-           
+            message = f'{">>"* 30} f"Training {type(initialized_model.model).__name__} Started." {"<<"*30}'
+            logging.info(message)
+            
             grid_search_cv_ref = ModelFactory.class_for_name(module_name=self.grid_search_cv_module,
                                                              class_name=self.grid_search_class_name
                                                              )
@@ -254,10 +256,9 @@ class ModelFactory:
                                                                    self.grid_search_property_data)
 
             
-            message = f'{">>"* 30} f"Training {type(initialized_model.model).__name__} Started." {"<<"*30}'
-            logging.info(message)
             grid_search_cv.fit(input_feature, output_feature)
             message = f'{">>"* 30} f"Training {type(initialized_model.model).__name__}" completed {"<<"*30}'
+            logging.info(message)
             grid_searched_best_model = GridSearchedBestModel(model_serial_number=initialized_model.model_serial_number,
                                                              model=initialized_model.model,
                                                              best_model=grid_search_cv.best_estimator_,

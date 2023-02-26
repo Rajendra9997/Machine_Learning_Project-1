@@ -26,7 +26,7 @@
                     required>
 
                     <option value=" govt">
-                        &lt; Government
+                        Government
                     </option>
                     <option value=" private">
                         Private
@@ -45,7 +45,7 @@
                     required>
 
                     <option value=" 10th_or_below">
-                        &lt; 10th or below
+                        10th or below
                     </option>
                     <option value=" HS-grad">
                         HS-grad
@@ -74,7 +74,7 @@
                     required>
 
                     <option value=" single">
-                        &lt; Single
+                        Single
                     </option>
                     <option value=" couple">
                         Couple
@@ -86,7 +86,7 @@
                 <select class="form-control" name="occupation" placeholder="Enter a value of occupation"
                     required >
                     <option value=" Adm-clerical">
-                        &lt; Adm-clerical
+                        Adm-clerical
                     </option>
                     <option value=" Exec-managerial">
                         Exec-managerial
@@ -134,7 +134,7 @@
                 <select class="form-control" name="relationship"
                     placeholder="Enter a value of relationship" required >
                     <option value=" Not-in-family">
-                        &lt; Not-in-family
+                        Not-in-family
                     </option>
                     <option value=" Husband">
                         Husband
@@ -159,7 +159,7 @@
                     required>
 
                     <option value=" Male">
-                        &lt; Male
+                        Male
                     </option>
                     <option value=" Female">
                         Female
@@ -178,7 +178,7 @@
                     required>
 
                     <option value=" US">
-                        &lt; US
+                        US
                     </option>
                     <option value=" Non-US">
                         NON-US
@@ -192,7 +192,7 @@
                     required>
 
                     <option value=" Amer-Indian-Eskimo">
-                        &lt; Amer-Indian-Eskimo
+                        Amer-Indian-Eskimo
                     </option>
                     <option value=" Asian-Pac-Islander">
                         Asian-Pac-Islander
@@ -243,10 +243,17 @@
             {% endfor %}
             <tr>
 
-                <td>census_income_class </td>
+                <td><strong>Income Class</strong></td>
+                
+                {% if context['census_income_class'] == ' <=50K' %}
                 <td>
-                    {{ context['census_income_class'] }}
+                    <td><strong><span style="color: yellowgreen;">50K or less</span></strong></td>
                 </td>
+                {% else %}
+                <td>
+                    <td><strong><span style="color: blueviolet;">Greater than 50K</span></strong></td>
+                </td>
+                {% endif %}
             </tr>
         </table>
 

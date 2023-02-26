@@ -5,7 +5,7 @@ from census.logger import logging
 from typing import List
 from census.entity.artifact_entity import DataTransformationArtifact, ModelTrainerArtifact
 from census.entity.config_entity import ModelTrainerConfig
-from census.util.util import load_numpy_array_data,save_object,load_object
+from census.util.util import load_numpy_array_data,save_object,load_object,replace_column_categories
 from census.entity.model_factory import MetricInfoArtifact, ModelFactory,GridSearchedBestModel
 from census.entity.model_factory import evaluate_classification_model
 
@@ -27,6 +27,7 @@ class CensusEstimatorModel:
         which gurantees that the inputs are in the same format as the training data
         At last it perform prediction on transformed features
         """
+      
         transformed_feature = self.preprocessing_object.transform(X)
         return self.trained_model_object.predict(transformed_feature)
 
