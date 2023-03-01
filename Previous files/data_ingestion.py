@@ -8,6 +8,9 @@ from six.moves import urllib #To download data
 import pandas as pd
 import numpy as np
 from sklearn.model_selection import StratifiedShuffleSplit
+from cassandra.cluster import Cluster
+from cassandra.auth import PlainTextAuthProvider
+
 
 class DataIngestion:
 
@@ -20,6 +23,23 @@ class DataIngestion:
 
     def load_census_data(self) -> str:
         try:
+            client_id = self.data_ingestion_config.database_client_id
+            client_secret = self.data_ingestion_config.database_client_secret
+            # connecting to cassandra database
+            
+            cloud_config= {
+                    'secure_connect_bundle': r'E:\Machine_Learning_Project\secure-connect-adult-census.zip'
+            }
+            auth_provider = PlainTextAuthProvider(client_id, client_secret)
+            cluster = Cluster(cloud=cloud_config, auth_provider=auth_provider)
+            session = cluster.connect()
+
+            dataframe = pd.DataFrame(list(session.execute("select * from income.adult_data;")))
+
+
+
+
+
             # To exctract download url
             download_url = self.data_ingestion_config.dataset_download_url
             #Folder location to download file    
@@ -38,7 +58,23 @@ class DataIngestion:
         except Exception as e:
             raise CensusException(e,sys) from e
 
-    
+    def extrat_tgz_file(self,tgz_file_path: str):
+        try:
+            raw_data_dir = self.data_ingestion_config.raw_data_dir
+
+            if os.path.exists(raw_data_dir):
+                os.path.remove(raw_data_dir)
+
+            os.makedirs(raw_data_dir,exist_ok=True)
+
+            logging.info(f"Extracting file : [{tgz_file_path}] into : [{raw_data_dir}]")
+            with tarfile.open(tgz_file_path) as census_tgz_file_obj:
+                census_tgz_file_obj.extractall(path = raw_data_dir)
+            logging.info(f"Extraction completed.")  
+            
+        except Exception as e:
+            raise CensusException(e,sys) from e
+
     def split_data_as_train_test(self) -> DataIngestionArtifact:
         try:
             raw_data_dir = self.data_ingestion_config.raw_data_dir
@@ -84,7 +120,8 @@ class DataIngestion:
             
     def initiate_data_ingestion(self) -> DataIngestionArtifact:
         try:
-            tgz_file_path = self.load_census_data()
+            tgz_file_path = self.download_census_data()
+            self.extrat_tgz_file(tgz_file_path=tgz_file_path)
             return self.split_data_as_train_test()
         except Exception as e:
             raise CensusException(e,sys) from e

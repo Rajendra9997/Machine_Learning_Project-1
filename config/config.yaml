@@ -1,11 +1,13 @@
+
 training_pipeline_config:
   pipeline_name: census
   artifact_dir: artifact
 
 data_ingestion_config:
-  dataset_download_url: https://github.com/RushiChalake03/Machine_Learning_Project/raw/main/adult_census_data.tgz
+  db_client_id: DTmBKcZuXZvMkgNkSYvUNTZA
+  db_client_secret: UEeoXPUu75+QAyBRp-KXm7f8vfFkTt.pw8IyZZDJJsTF3BFHkEDqjZPD5uPuO-xT3Fpjdz4Qs6Tg1L,DrabSSGerUsU+FuORqAbgZ3qjw6xl1yESIZpY+jpmb4yLitAe
+  db_token: AstraCS:DTmBKcZuXZvMkgNkSYvUNTZA:f984d1cc152f46c437e7a67fbaad9494728776bb47c566c9e3feb3156de367da
   raw_data_dir: raw_data
-  tgz_download_dir: tgz_data
   ingested_dir: ingested_data
   ingested_train_dir: train
   ingested_test_dir: test 

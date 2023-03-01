@@ -29,7 +29,10 @@ class Configuration:
 
             data_ingestion_info = self.config_info[DATA_INGESTION_CONFIG_KEY]
             
-            dataset_download_url = data_ingestion_info[DATA_INGESTION_DATASET_DOWNLOAD_URL_KEY]
+            database_client_id = data_ingestion_info[DB_CLIENT_ID_KEY]
+            database_client_secret = data_ingestion_info[DB_CLIENT_SECRET_KEY]
+            
+
                        
            
             raw_data_dir = os.path.join(
@@ -37,11 +40,7 @@ class Configuration:
                 data_ingestion_info[DATA_INGESTION_RAW_DATA_DIR_KEY]
                 )
 
-            tgz_download_dir = os.path.join(
-                data_ingestion_artifact_dir,
-                data_ingestion_info[DATA_INGESTION_TGZ_DOWNLOAD_DIR_KEY]
-                )
-
+            
             ingested_data_dir = os.path.join(
                 data_ingestion_artifact_dir,
                 data_ingestion_info[DATA_INGESTION_INGESTED_DIR_NAME_KEY]
@@ -58,9 +57,9 @@ class Configuration:
                 )
 
             data_ingestion_config = DataIngestionConfig(
-                    dataset_download_url = dataset_download_url,
+                    database_client_id = database_client_id,
+                    database_client_secret = database_client_secret,
                     raw_data_dir = raw_data_dir,
-                    tgz_download_dir = tgz_download_dir,
                     ingested_train_dir = ingested_train_dir,
                     ingested_test_dir = ingested_test_dir
             )
