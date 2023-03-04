@@ -2,6 +2,7 @@ import os
 from datetime import datetime
 ROOT_DIR=os.getcwd() #To get current working directory
 
+RAW_DATA_FILE_NAME = "adult.csv"
 CLIENT_ID_KEY = "client_id"
 CLIENT_SECRET_KEY = "client_secret"
 TOKEN_KEY = "token"

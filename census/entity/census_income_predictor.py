@@ -52,15 +52,15 @@ class CensusData:
             input_data = {
                 "workclass" : [self.workclass],
                 "education" : [self.education],  
-                "marital-status" : [self.marital_status],  
+                "marital_status" : [self.marital_status],  
                 "occupation"  : [self.occupation],
                 "relationship" : [self.relationship],
                 "race" : [self.race],
                 "sex" : [self.sex],
                 "country" : [self.country],
                 "age" : [self.age],
-                "education-num" : [self.education_num],  
-                "hours-per-week" : [self.hours_per_week],
+                "education_num" : [self.education_num],  
+                "hours_per_week" : [self.hours_per_week],
             }
             return input_data
         except Exception as e:

@@ -110,8 +110,8 @@ def replace_column_categories(data):
                     
         
         # replace categories in the marital-status column
-        data['marital-status'] = data['marital-status'].replace([' Divorced',' Married-spouse-absent',' Never-married',' Separated',' Widowed'],' single')
-        data['marital-status'] = data['marital-status'].replace([' Married-AF-spouse',' Married-civ-spouse'],' couple')
+        data['marital_status'] = data['marital_status'].replace([' Divorced',' Married-spouse-absent',' Never-married',' Separated',' Widowed'],' single')
+        data['marital_status'] = data['marital_status'].replace([' Married-AF-spouse',' Married-civ-spouse'],' couple')
 
         # replace categories in the country column
         data.loc[data['country'] != ' United-States', 'country'] = ' Non-US'
@@ -135,7 +135,7 @@ def replace_column_categories(data):
         data['workclass'] = data.apply(replace_workclass_cat, axis = 1)
         data['education'] = data.apply(replace_education_cat, axis = 1)
 
-        data.drop(["fnlwgt","capital-gain","capital-loss"], axis = 1, inplace = True, errors = "raise")
+        data.drop(["fnlwgt","capital_gain","capital_loss"], axis = 1, inplace = True, errors = "raise")
         return data
         
     except Exception as e:

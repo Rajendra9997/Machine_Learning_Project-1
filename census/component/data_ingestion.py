@@ -8,6 +8,10 @@ from six.moves import urllib #To download data
 import pandas as pd
 import numpy as np
 from sklearn.model_selection import StratifiedShuffleSplit
+from cassandra.cluster import Cluster
+from cassandra.auth import PlainTextAuthProvider
+from census.constant import *
+
 
 class DataIngestion:
 
@@ -20,21 +24,34 @@ class DataIngestion:
 
     def load_census_data(self) -> str:
         try:
-            # To exctract download url
-            download_url = self.data_ingestion_config.dataset_download_url
-            #Folder location to download file    
-            tgz_download_dir = self.data_ingestion_config.tgz_download_dir
-            
-            if os.path.exists(tgz_download_dir):
-                os.remove(tgz_download_dir)
+            client_id = self.data_ingestion_config.database_client_id
+            client_secret = self.data_ingestion_config.database_client_secret
+            # connecting to cassandra database
+        
+            # Set up the Cassandra cluster and authentication
+            cloud_config = {'secure_connect_bundle': r'E:\Machine_Learning_Project\secure-connect-adult-census-data.zip'}
+            auth_provider = PlainTextAuthProvider(client_id, client_secret)
+            cluster = Cluster(cloud=cloud_config, auth_provider=auth_provider)
+            session = cluster.connect()
 
-            os.makedirs(tgz_download_dir, exist_ok = True)
-            tgz_file_name = os.path.basename(download_url)
-            tgz_file_path = os.path.join(tgz_download_dir,tgz_file_name)
-            logging.info(f"Downloading file from [{download_url}] into : [{tgz_file_path}]")
-            urllib.request.urlretrieve(download_url, tgz_file_path)
-            logging.info(f"file : [{tgz_file_path}] has been downloaded successfully.")
-            return tgz_file_path 
+            #session.execute("USE income;")
+
+            dataframe = pd.DataFrame(list(session.execute("select * from income.adult_census_data;")))
+
+            raw_data_dir = self.data_ingestion_config.raw_data_dir
+
+            if os.path.exists(raw_data_dir):
+                os.path.remove(raw_data_dir)
+
+            os.makedirs(raw_data_dir,exist_ok=True)
+
+            raw_data_file_path = os.path.join(raw_data_dir,RAW_DATA_FILE_NAME)
+            logging.info(f"Extracting Data from Database into : [{raw_data_file_path}]")
+            
+            dataframe.to_csv(raw_data_file_path, index = False)
+            logging.info(f"Extraction completed.")  
+             
+            return raw_data_file_path
         except Exception as e:
             raise CensusException(e,sys) from e
 
@@ -84,7 +101,7 @@ class DataIngestion:
             
     def initiate_data_ingestion(self) -> DataIngestionArtifact:
         try:
-            tgz_file_path = self.load_census_data()
+            raw_data_file_path = self.load_census_data()
             return self.split_data_as_train_test()
         except Exception as e:
             raise CensusException(e,sys) from e

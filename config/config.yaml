@@ -4,9 +4,9 @@ training_pipeline_config:
   artifact_dir: artifact
 
 data_ingestion_config:
-  db_client_id: DTmBKcZuXZvMkgNkSYvUNTZA
-  db_client_secret: UEeoXPUu75+QAyBRp-KXm7f8vfFkTt.pw8IyZZDJJsTF3BFHkEDqjZPD5uPuO-xT3Fpjdz4Qs6Tg1L,DrabSSGerUsU+FuORqAbgZ3qjw6xl1yESIZpY+jpmb4yLitAe
-  db_token: AstraCS:DTmBKcZuXZvMkgNkSYvUNTZA:f984d1cc152f46c437e7a67fbaad9494728776bb47c566c9e3feb3156de367da
+  db_client_id: YKMsCCrKlScnCPSzXYAnkONa
+  db_client_secret: qtK1Tw4hd6eWT6arHvNd7rtoZ5+Z0wWeFEs9sfQWT+jJ00YRII6z4FZm2f9S_KRxRG96CYNo9x1XF9N8bLcA3.DYQrz,.Ft5DeArJyedKQ_qJrqyyDnfae,X1aBwimOl
+  db_token: AstraCS:YKMsCCrKlScnCPSzXYAnkONa:61ddc8ba4ed1baa588745733afce083fad5844d562266156e0025c018c43c054
   raw_data_dir: raw_data
   ingested_dir: ingested_data
   ingested_train_dir: train
