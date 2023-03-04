@@ -1,4 +1,4 @@
-name: Deploy to Railway Cloud
+name: Deploy to Railway
 
 on:
   push:
@@ -6,32 +6,29 @@ on:
       - main
 
 jobs:
-  build-and-deploy:
+  deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
+      - name: Checkout
         uses: actions/checkout@v2
-
-      - name: Set up Python
-        uses: actions/setup-python@v2
+      
+      - name: Login to Railway
+        uses: railwayapp/cli-action@master
         with:
-          python-version: '3.8'
+          args: auth login --api-token "${{ secrets.RAILWAY_TOKEN }}"
 
-      - name: Install dependencies
+      - name: Install Dependencies
         run: |
-          python -m venv env
-          source env/bin/activate
+          python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Login to Railway
-        uses: railwayapp/login-action@v1
+      - name: Build and Deploy
+        uses: railwayapp/python-app-action@v1.1.0
         with:
-          token: ${{ secrets.RAILWAY_TOKEN }}
-
-      - name: Deploy to Railway
-        uses: railwayapp/deploy-action@v1
-        with:
+          name: ML Project
           args: |
-            --build
-            --no-logs
-            --tail
+            --build-arg SECRET_KEY="${{ secrets.SECRET_KEY }}"
+            --port 8080
+          env:
+            RAILWAY_APP_NAME: my-flask-app
+            SECRET_KEY: ${{ secrets.SECRET_KEY }}
