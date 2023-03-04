@@ -32,7 +32,7 @@ class DataTransformation:
     
     def get_data_transformer_object(self) -> ColumnTransformer:
         try:
-            schema_file_path = r"E:\Machine_Learning_Project\config\schema.yaml"
+            schema_file_path = self.data_validation_artifact.schema_file_path
             
             dataset_schema = read_yaml_file(file_path=schema_file_path)
 
@@ -76,7 +76,7 @@ class DataTransformation:
             test_file_path = self.data_ingestion_artifact.test_file_path
             
 
-            schema_file_path = r"E:\Machine_Learning_Project\config\schema.yaml"
+            schema_file_path = self.data_validation_artifact.schema_file_path
             
             logging.info(f"Loading training and test data as pandas dataframe.")
             train_df = load_data(data_file_path=train_file_path, schema_file_path=schema_file_path)

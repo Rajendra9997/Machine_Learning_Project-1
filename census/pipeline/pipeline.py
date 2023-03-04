@@ -66,7 +66,7 @@ class Pipeline(Thread):
             data_transformation = DataTransformation(
                 data_transformation_config=self.config.get_data_transformation_config(),
                 data_ingestion_artifact=data_ingestion_artifact,
-                data_validation_artifact=DataValidationArtifact
+                data_validation_artifact=data_validation_artifact
             )
             return data_transformation.initiate_data_transformation()
         except Exception as e:

@@ -33,7 +33,7 @@ def write_yaml_file(file_path:str,data:dict=None):
 
 def load_data( data_file_path:str, schema_file_path:str) -> pd.DataFrame:
         try:
-            dataset_schema = read_yaml_file(schema_file_path)
+            dataset_schema = read_yaml_file(file_path = schema_file_path)
 
             schema = dataset_schema[DATASET_SCHEMA_COLUMNS_KEY]
 

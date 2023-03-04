@@ -109,7 +109,7 @@ class DataValidation:
     def is_data_drift_found(self) -> bool:
         try:
             report = self.get_and_save_data_drift_report()
-            self.save_data_drift_report_page
+            self.save_data_drift_report_page()
             return True
         except Exception as e:
             raise CensusException(e,sys) from e
