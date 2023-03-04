@@ -19,7 +19,7 @@ def get_install_requirements()->List[str]:
      contain name of libraries mentioned in requirement.txt
     """
     with open(REQUIREMENTS_FILE_NAME) as requirement_file:
-        return requirement_file.readlines().remove("-e .")
+        return requirement_file.readlines()
 
 
 
