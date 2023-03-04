@@ -1,4 +1,4 @@
-name: Deploy to Railway
+name: Railway Deployment
 
 on:
   push:
@@ -9,26 +9,13 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
+      - name: Checkout code
         uses: actions/checkout@v2
-      
+
       - name: Login to Railway
-        uses: railwayapp/cli-action@master
+        uses: devtomio/action-railway@v1.1.4
         with:
-          args: auth login --api-token "${{ secrets.RAILWAY_TOKEN }}"
+          railway_token: ${{ secrets.RAILWAY_TOKEN }}
 
-      - name: Install Dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
-
-      - name: Build and Deploy
-        uses: railwayapp/python-app-action@v1.1.0
-        with:
-          name: ML Project
-          args: |
-            --build-arg SECRET_KEY="${{ secrets.SECRET_KEY }}"
-            --port 8080
-          env:
-            RAILWAY_APP_NAME: ML Project
-            SECRET_KEY: ${{ secrets.SECRET_KEY }}
+      - name: Deploy to Railway
+        run: railway deploy --platform python --env FLASK_APP=app.py,FLASK_ENV=production
