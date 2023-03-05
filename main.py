@@ -14,11 +14,7 @@ def main():
         
         pipeline.start()
         logging.info(f"Main function execution completed.")
-        #data_transformation_config = Configuration().get_data_transformation_config()
-        #print(data_transformation_config)
-        #m  = read_yaml_file(file_path="E:\Machine_Learning_Project\config\schema.yaml")
-        #print(m)
-    
+       
     except Exception as e:
         logging.error(f"{e}")
         raise CensusException(e,sys) from e

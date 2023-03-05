@@ -141,7 +141,7 @@ def predict():
         census_income_class = census_predictor.predict(X=census_df)
         context = {
             CENSUS_DATA_KEY: census_data.get_census_data_as_dict(),
-            CENSUS_INCOME_CLASS_KEY : census_income_class,
+            CENSUS_INCOME_CLASS_KEY : census_income_class
         }
         return render_template('predict.html', context=context)
     return render_template("predict.html", context=context)

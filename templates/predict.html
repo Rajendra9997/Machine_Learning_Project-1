@@ -224,6 +224,17 @@
             </div>
             <div class="card-body">
         {% if context['census_data'] is not none %}
+        {% if context['census_income_class'] == ' <=50K' %}
+               
+          <h3><strong><span style="color: yellowgreen;">Person has income &#36;50K or less</span></strong></h3></h3>
+        
+        {% else %}
+        <h3><strong><span style="color: rgb(67, 25, 193);"> Person has income greater than &#36;50K</span></strong></h3></h3>
+        
+        {% endif %}
+    
+
+
         <table class="table table-striped">
             <caption>Adult Census Income Prediction </caption>
             <tr>
@@ -241,20 +252,8 @@
             </tr>
 
             {% endfor %}
-            <tr>
-
-                <td><strong>Income Class</strong></td>
                 
-                {% if context['census_income_class'] == ' <=50K' %}
-                <td>
-                    <td><strong><span style="color: yellowgreen;">50K or less</span></strong></td>
-                </td>
-                {% else %}
-                <td>
-                    <td><strong><span style="color: blueviolet;">Greater than 50K</span></strong></td>
-                </td>
-                {% endif %}
-            </tr>
+                
         </table>
 
         {% else %}
